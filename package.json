@@ -3,7 +3,7 @@
     "displayName": "MDN Quick Search",
     "description": "Quickly search MDN docs",
     "publisher": "th7as",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "icon": "images/icon.png",
     "license": "MIT",
     "repository": {
@@ -51,6 +51,7 @@
         "test": "vscode-test"
     },
     "dependencies": {
+        "proxy-agent": "^6.4.0",
         "node-fetch": "^2.7.0"
     },
     "devDependencies": {
