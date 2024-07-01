@@ -1,4 +1,5 @@
-import { Disposable, ExtensionContext, Position, QuickPickItem, Range, TextEditor, Uri, commands, env, window, workspace } from 'vscode';
+import { Disposable, ExtensionContext, QuickPickItem, Range, TextEditor, Uri, commands, env, window, workspace } from 'vscode';
+import fetch from 'node-fetch';
 
 interface SearchIndexItem {
     title: string;
@@ -135,10 +136,18 @@ async function pickSearchIndexItem(searchText: string): Promise<string | undefin
  * @returns MDN search index
  */
 async function fetchSearchIndex(): Promise<SearchIndexItem[]> {
-    const response = await fetch(searchIndexUrl);
-    if (response.ok) {
-        return response.json() as Promise<SearchIndexItem[]>;
+    try {
+        const response = await fetch(searchIndexUrl);
+
+        if (response.ok) {
+            return response.json() as Promise<SearchIndexItem[]>;
+        } else {
+            console.error(`HTTP Error: ${response.status} - ${response.statusText}`);
+        }
+    } catch (error) {
+        console.error(error);
     }
+
     throw new Error();
 }
 

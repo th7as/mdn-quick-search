@@ -8,14 +8,14 @@ Quickly search MDN docs and pick a page from the search results to open in exter
 
 ## Commands
 
-This extension contributes the following commands:
+This extension contributes the following command:
 
 * `mdnQuickSearch.search`: Opens MDN Quick Search. Selected text in the active editor will be used as the default search text.
     If no text is selected, then the text at the cursor positon will be used.
 
 ## Settings
 
-This extension contributes the following settings:
+This extension contributes the following setting:
 
 * `mdnQuickSearch.searchIndexUrl`: URL of the MDN search index json file.
 
