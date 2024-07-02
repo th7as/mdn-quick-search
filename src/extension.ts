@@ -1,5 +1,5 @@
 import { Disposable, ExtensionContext, QuickPickItem, Range, TextEditor, Uri, commands, env, window, workspace } from 'vscode';
-import fetch from 'make-fetch-happen';
+import { xhr, XHRResponse, getErrorStatusDescription } from 'request-light';
 
 interface SearchIndexItem {
     title: string;
@@ -111,44 +111,26 @@ async function pickSearchIndexItem(searchText: string): Promise<string | undefin
                 quickPick.enabled = false;
                 quickPick.busy = true;
 
-                fetchSearchIndex()
-                    .then((index) => {
-                        searchIndex = prepareSearchIndex(index);
+                const headers = { 'Accept-Encoding': 'gzip, deflate' };
+                xhr({ url: searchIndexUrl, followRedirects: 5, headers }).then(
+                    (response) => {
+                        searchIndex = prepareSearchIndex(JSON.parse(response.responseText));
                         quickPick.busy = false;
                         quickPick.enabled = true;
                         quickPick.items = searchText.trim().length > 1 ? searchIndex : [];
-                    })
-                    .catch(() => {
+                    },
+                    (error: XHRResponse) => {
+                        console.error(error.responseText || getErrorStatusDescription(error.status) || error.toString());
                         window.showErrorMessage(`Error loading ${searchIndexUrl}`);
                         resolve(undefined);
                         quickPick.dispose();
-                    });
+                    }
+                );
             }
         });
     } finally {
         disposables.forEach((d) => d.dispose());
     }
-}
-
-/**
- * Loads the MDN search index.
- *
- * @returns MDN search index
- */
-async function fetchSearchIndex(): Promise<SearchIndexItem[]> {
-    try {
-        const response = await fetch(searchIndexUrl);
-
-        if (response.ok) {
-            return response.json() as Promise<SearchIndexItem[]>;
-        } else {
-            console.error(`HTTP Error: ${response.status} - ${response.statusText}`);
-        }
-    } catch (error) {
-        console.error(error);
-    }
-
-    throw new Error();
 }
 
 /**

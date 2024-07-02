@@ -3,7 +3,7 @@
     "displayName": "MDN Quick Search",
     "description": "Quickly search MDN docs",
     "publisher": "th7as",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "icon": "images/icon.png",
     "license": "MIT",
     "repository": {
@@ -51,10 +51,9 @@
         "test": "vscode-test"
     },
     "dependencies": {
-        "make-fetch-happen": "^13.0.1"
+        "request-light": "^0.8.0"
     },
     "devDependencies": {
-        "@types/make-fetch-happen": "^10.0.4",
         "@types/mocha": "^10.0.6",
         "@types/node": "20.x",
         "@types/vscode": "^1.90.0",
