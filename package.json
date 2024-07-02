@@ -3,7 +3,7 @@
     "displayName": "MDN Quick Search",
     "description": "Quickly search MDN docs",
     "publisher": "th7as",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "icon": "images/icon.png",
     "license": "MIT",
     "repository": {
@@ -51,13 +51,12 @@
         "test": "vscode-test"
     },
     "dependencies": {
-        "proxy-agent": "^6.4.0",
-        "node-fetch": "^2.7.0"
+        "make-fetch-happen": "^13.0.1"
     },
     "devDependencies": {
+        "@types/make-fetch-happen": "^10.0.4",
         "@types/mocha": "^10.0.6",
         "@types/node": "20.x",
-        "@types/node-fetch": "^2.6.11",
         "@types/vscode": "^1.90.0",
         "@typescript-eslint/eslint-plugin": "^7.11.0",
         "@typescript-eslint/parser": "^7.11.0",

@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.6
+
+- Better proxy support
+
 ## 1.0.5
 
 - Fixed proxy fix

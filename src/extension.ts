@@ -1,6 +1,5 @@
 import { Disposable, ExtensionContext, QuickPickItem, Range, TextEditor, Uri, commands, env, window, workspace } from 'vscode';
-import { ProxyAgent } from 'proxy-agent';
-import fetch from 'node-fetch';
+import fetch from 'make-fetch-happen';
 
 interface SearchIndexItem {
     title: string;
@@ -138,8 +137,7 @@ async function pickSearchIndexItem(searchText: string): Promise<string | undefin
  */
 async function fetchSearchIndex(): Promise<SearchIndexItem[]> {
     try {
-        const proxyAgent = new ProxyAgent();
-        const response = await fetch(searchIndexUrl, { agent: proxyAgent });
+        const response = await fetch(searchIndexUrl);
 
         if (response.ok) {
             return response.json() as Promise<SearchIndexItem[]>;
