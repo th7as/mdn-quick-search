@@ -114,7 +114,7 @@ async function pickSearchIndexItem(searchText: string): Promise<string | undefin
                 quickPick.busy = true;
 
                 if (alwaysUseBuiltInSearchIndex) {
-                    setSearchIndex(quickPick, searchText, require('../data/search-index.json'));
+                    setSearchIndex(quickPick, searchText, require('./search-index.json'));
                 } else {
                     const headers = { 'Accept-Encoding': 'gzip, deflate' };
                     xhr({ url: searchIndexUrl, followRedirects: 5, headers }).then(
@@ -123,7 +123,7 @@ async function pickSearchIndexItem(searchText: string): Promise<string | undefin
                         },
                         (error: XHRResponse) => {
                             console.error(error.responseText || getErrorStatusDescription(error.status) || error.toString());
-                            setSearchIndex(quickPick, searchText, require('../data/search-index.json'));
+                            setSearchIndex(quickPick, searchText, require('./search-index.json'));
                         }
                     );
                 }

@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.9
+
+- Reduced extension size
+
 ## 1.0.8
 
 - New built-in search index is used if loading from MDN website fails
