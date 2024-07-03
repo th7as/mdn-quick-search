@@ -1,4 +1,4 @@
-import { Disposable, ExtensionContext, QuickPickItem, Range, TextEditor, Uri, commands, env, window, workspace } from 'vscode';
+import { Disposable, ExtensionContext, QuickPick, QuickPickItem, Range, TextEditor, Uri, commands, env, window, workspace } from 'vscode';
 import { xhr, XHRResponse, getErrorStatusDescription } from 'request-light';
 
 interface SearchIndexItem {
@@ -11,6 +11,7 @@ interface SearchIndexPickItem extends QuickPickItem {
 }
 
 let searchIndexUrl = '';
+let alwaysUseBuiltInSearchIndex = false;
 let searchIndex: SearchIndexPickItem[] | undefined;
 
 /**
@@ -21,6 +22,7 @@ let searchIndex: SearchIndexPickItem[] | undefined;
 export function activate(context: ExtensionContext): void {
     const config = workspace.getConfiguration('mdnQuickSearch');
     searchIndexUrl = config.get('searchIndexUrl', 'https://developer.mozilla.org/en-US/search-index.json');
+    alwaysUseBuiltInSearchIndex = config.get('alwaysUseBuiltInSearchIndex', false);
 
     const searchCommand = commands.registerCommand('mdnQuickSearch.search', async () => {
         let searchText = '';
@@ -111,26 +113,40 @@ async function pickSearchIndexItem(searchText: string): Promise<string | undefin
                 quickPick.enabled = false;
                 quickPick.busy = true;
 
-                const headers = { 'Accept-Encoding': 'gzip, deflate' };
-                xhr({ url: searchIndexUrl, followRedirects: 5, headers }).then(
-                    (response) => {
-                        searchIndex = prepareSearchIndex(JSON.parse(response.responseText));
-                        quickPick.busy = false;
-                        quickPick.enabled = true;
-                        quickPick.items = searchText.trim().length > 1 ? searchIndex : [];
-                    },
-                    (error: XHRResponse) => {
-                        console.error(error.responseText || getErrorStatusDescription(error.status) || error.toString());
-                        window.showErrorMessage(`Error loading ${searchIndexUrl}`);
-                        resolve(undefined);
-                        quickPick.dispose();
-                    }
-                );
+                if (alwaysUseBuiltInSearchIndex) {
+                    setSearchIndex(quickPick, searchText, require('../data/search-index.json'));
+                } else {
+                    const headers = { 'Accept-Encoding': 'gzip, deflate' };
+                    xhr({ url: searchIndexUrl, followRedirects: 5, headers }).then(
+                        (response) => {
+                            setSearchIndex(quickPick, searchText, JSON.parse(response.responseText));
+                        },
+                        (error: XHRResponse) => {
+                            console.error(error.responseText || getErrorStatusDescription(error.status) || error.toString());
+                            setSearchIndex(quickPick, searchText, require('../data/search-index.json'));
+                        }
+                    );
+                }
             }
         });
     } finally {
         disposables.forEach((d) => d.dispose());
     }
+}
+
+/**
+ * Sets the MDN search index for use in QuickPick.
+ *
+ * @param quickPick - QuickPick
+ * @param searchText - Initial search text
+ * @param index - MDN search index
+ */
+function setSearchIndex(quickPick: QuickPick<SearchIndexPickItem>, searchText: string, index: SearchIndexItem[]): void {
+    searchIndex = prepareSearchIndex(index);
+
+    quickPick.busy = false;
+    quickPick.enabled = true;
+    quickPick.items = searchText.trim().length > 1 ? searchIndex : [];
 }
 
 /**

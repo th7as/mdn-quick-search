@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.0.8
+
+- New built-in search index is used if loading from MDN website fails
+- New setting to always use the built-in search index
+
 ## 1.0.7
 
 - More lightweight proxy support
@@ -14,7 +19,7 @@
 
 ## 1.0.4
 
-- Fixed failure of loading the MDN search index if using a proxy to connect to the internet
+- Fixed failure of loading MDN search index if using a proxy to connect to the internet
 
 ## 1.0.3
 

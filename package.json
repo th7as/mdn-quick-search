@@ -3,7 +3,7 @@
     "displayName": "MDN Quick Search",
     "description": "Quickly search MDN docs",
     "publisher": "th7as",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "icon": "images/icon.png",
     "license": "MIT",
     "repository": {
@@ -32,6 +32,11 @@
                     "type": "string",
                     "default": "https://developer.mozilla.org/en-US/search-index.json",
                     "description": "URL of the MDN search index json file."
+                },
+                "mdnQuickSearch.alwaysUseBuiltInSearchIndex": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If enabled then always uses the built-in search index, otherwise the newest search index is loaded from the Search-Index-Url setting and the built-in one is used only in case of failure."
                 }
             }
         }
