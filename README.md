@@ -27,6 +27,6 @@ This extension uses the QuickPick search and select box from VS Code, which has 
 Currently it is **not** possible to customize these algorithms.
 
 Word order is important when searching.
-For example if you want to search for the `push` method from the `Array` object then you have to search like this: `array push`
+For example if you want to search for the `push` method from the `Array` object then you have to search for `array push`.
 
 Searching for `push array` will not succeed, because the MDN search index contains the words in the other order.

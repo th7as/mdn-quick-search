@@ -3,7 +3,7 @@
     "displayName": "MDN Quick Search",
     "description": "Quickly search MDN docs",
     "publisher": "th7as",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "icon": "images/icon.png",
     "license": "MIT",
     "repository": {

@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.10
+
+- Updated built-in search index
+
 ## 1.0.9
 
 - Reduced extension size
