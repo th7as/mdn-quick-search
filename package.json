@@ -3,7 +3,7 @@
     "displayName": "MDN Quick Search",
     "description": "Quickly search MDN docs",
     "publisher": "th7as",
-    "version": "1.0.10",
+    "version": "1.1.0",
     "icon": "images/icon.png",
     "license": "MIT",
     "repository": {
@@ -28,6 +28,11 @@
         "configuration": {
             "title": "MDN Quick Search",
             "properties": {
+                "mdnQuickSearch.searchQueryUrl": {
+                    "type": "string",
+                    "default": "https://developer.mozilla.org/en-US/search?q=",
+                    "description": "URL for executing a search query at the MDN site (the search term is appended to the end of this URL)."
+                },
                 "mdnQuickSearch.searchIndexUrl": {
                     "type": "string",
                     "default": "https://developer.mozilla.org/en-US/search-index.json",

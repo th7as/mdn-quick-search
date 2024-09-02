@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.1.0
+
+- New search button in the title bar of the MDN Quick Search box for executing a search query at the MDN site
+
 ## 1.0.10
 
 - Updated built-in search index

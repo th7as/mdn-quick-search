@@ -1,4 +1,4 @@
-import { Disposable, ExtensionContext, QuickPick, QuickPickItem, Range, TextEditor, Uri, commands, env, window, workspace } from 'vscode';
+import { Disposable, ExtensionContext, QuickPick, QuickPickItem, Range, TextEditor, ThemeIcon, Uri, commands, env, window, workspace } from 'vscode';
 import { xhr, XHRResponse, getErrorStatusDescription } from 'request-light';
 
 interface SearchIndexItem {
@@ -10,6 +10,7 @@ interface SearchIndexPickItem extends QuickPickItem {
     url: string;
 }
 
+let searchQueryUrl = '';
 let searchIndexUrl = '';
 let alwaysUseBuiltInSearchIndex = false;
 let searchIndex: SearchIndexPickItem[] | undefined;
@@ -21,6 +22,7 @@ let searchIndex: SearchIndexPickItem[] | undefined;
  */
 export function activate(context: ExtensionContext): void {
     const config = workspace.getConfiguration('mdnQuickSearch');
+    searchQueryUrl = config.get('searchQueryUrl', 'https://developer.mozilla.org/en-US/search?q=');
     searchIndexUrl = config.get('searchIndexUrl', 'https://developer.mozilla.org/en-US/search-index.json');
     alwaysUseBuiltInSearchIndex = config.get('alwaysUseBuiltInSearchIndex', false);
 
@@ -103,9 +105,26 @@ async function pickSearchIndexItem(searchText: string): Promise<string | undefin
                 quickPick.onDidHide(() => {
                     resolve(undefined);
                     quickPick.dispose();
+                }),
+                quickPick.onDidTriggerButton(() => {
+                    let searchTerm = quickPick.value.trim();
+                    if (searchTerm.length > 1) {
+                        if (searchTerm.slice(-1) === '(') {
+                            searchTerm = searchTerm.substring(0, searchTerm.length - 1);
+                        }
+                        env.openExternal(Uri.parse(searchQueryUrl + encodeURIComponent(searchTerm)));
+                        resolve(undefined);
+                        quickPick.dispose();
+                    }
                 })
             );
 
+            quickPick.buttons = [
+                {
+                    iconPath: new ThemeIcon('search'),
+                    tooltip: 'Search at MDN site',
+                },
+            ];
             quickPick.value = searchText;
             quickPick.show();
 

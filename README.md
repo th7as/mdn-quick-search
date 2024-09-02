@@ -17,6 +17,7 @@ This extension contributes the following command:
 
 This extension contributes the following settings:
 
+* `mdnQuickSearch.searchQueryUrl`: URL for executing a search query at the MDN site (the search term is appended to the end of this URL).
 * `mdnQuickSearch.searchIndexUrl`: URL of the MDN search index json file.
 * `mdnQuickSearch.alwaysUseBuiltInSearchIndex`: If enabled then always uses the built-in search index,
     otherwise the newest search index is loaded from `mdnQuickSearch.searchIndexUrl` and the built-in one is used only in case of failure.
@@ -30,3 +31,6 @@ Word order is important when searching.
 For example if you want to search for the `push` method from the `Array` object then you have to search for `array push`.
 
 Searching for `push array` will not succeed, because the MDN search index contains the words in the other order.
+
+If searching the MDN search index is not satisfactory, then you can push the **search button** in the title bar of the QuickPick box
+to execute a search query at the MDN site using the entered search term.
