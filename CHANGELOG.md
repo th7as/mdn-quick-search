@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.1.1
+
+- Fixed settings changes not being considered if they have been changed after extension activation
+- Updated built-in search index
+
 ## 1.1.0
 
 - New search button in the title bar of the MDN Quick Search box for executing a search query at the MDN site

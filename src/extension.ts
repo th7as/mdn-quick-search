@@ -10,9 +10,6 @@ interface SearchIndexPickItem extends QuickPickItem {
     url: string;
 }
 
-let searchQueryUrl = '';
-let searchIndexUrl = '';
-let alwaysUseBuiltInSearchIndex = false;
 let searchIndex: SearchIndexPickItem[] | undefined;
 
 /**
@@ -21,11 +18,6 @@ let searchIndex: SearchIndexPickItem[] | undefined;
  * @param context - Extension context
  */
 export function activate(context: ExtensionContext): void {
-    const config = workspace.getConfiguration('mdnQuickSearch');
-    searchQueryUrl = config.get('searchQueryUrl', 'https://developer.mozilla.org/en-US/search?q=');
-    searchIndexUrl = config.get('searchIndexUrl', 'https://developer.mozilla.org/en-US/search-index.json');
-    alwaysUseBuiltInSearchIndex = config.get('alwaysUseBuiltInSearchIndex', false);
-
     const searchCommand = commands.registerCommand('mdnQuickSearch.search', async () => {
         let searchText = '';
 
@@ -112,6 +104,8 @@ async function pickSearchIndexItem(searchText: string): Promise<string | undefin
                         if (searchTerm.slice(-1) === '(') {
                             searchTerm = searchTerm.substring(0, searchTerm.length - 1);
                         }
+                        const config = workspace.getConfiguration('mdnQuickSearch');
+                        const searchQueryUrl = config.get<string>('searchQueryUrl', 'https://developer.mozilla.org/en-US/search?q=');
                         env.openExternal(Uri.parse(searchQueryUrl + encodeURIComponent(searchTerm)));
                         resolve(undefined);
                         quickPick.dispose();
@@ -132,10 +126,15 @@ async function pickSearchIndexItem(searchText: string): Promise<string | undefin
                 quickPick.enabled = false;
                 quickPick.busy = true;
 
+                const config = workspace.getConfiguration('mdnQuickSearch');
+                const alwaysUseBuiltInSearchIndex = config.get<boolean>('alwaysUseBuiltInSearchIndex', false);
+
                 if (alwaysUseBuiltInSearchIndex) {
                     setSearchIndex(quickPick, searchText, require('./search-index.json'));
                 } else {
+                    const searchIndexUrl = config.get<string>('searchIndexUrl', 'https://developer.mozilla.org/en-US/search-index.json');
                     const headers = { 'Accept-Encoding': 'gzip, deflate' };
+
                     xhr({ url: searchIndexUrl, followRedirects: 5, headers }).then(
                         (response) => {
                             setSearchIndex(quickPick, searchText, JSON.parse(response.responseText));
