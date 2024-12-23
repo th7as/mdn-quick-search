@@ -21,6 +21,7 @@ This extension contributes the following settings:
 * `mdnQuickSearch.searchIndexUrl`: URL of the MDN search index json file.
 * `mdnQuickSearch.alwaysUseBuiltInSearchIndex`: If enabled then always uses the built-in search index,
     otherwise the newest search index is loaded from `mdnQuickSearch.searchIndexUrl` and the built-in one is used only in case of failure.
+* `mdnQuickSearch.hideCommandInEditorContextMenu`: If enabled then hides the MDN Quick Search command in the editor context menu.
 
 ## Search Hints
 

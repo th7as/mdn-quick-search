@@ -3,7 +3,7 @@
     "displayName": "MDN Quick Search",
     "description": "Quickly search MDN docs",
     "publisher": "th7as",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "icon": "images/icon.png",
     "license": "MIT",
     "repository": {
@@ -25,6 +25,15 @@
                 "title": "MDN Quick Search"
             }
         ],
+        "menus": {
+            "editor/context": [
+                {
+                    "command": "mdnQuickSearch.search",
+                    "group": "2_mdnQuickSearch",
+                    "when": "!config.mdnQuickSearch.hideCommandInEditorContextMenu"
+                }
+            ]
+        },
         "configuration": {
             "title": "MDN Quick Search",
             "properties": {
@@ -42,6 +51,11 @@
                     "type": "boolean",
                     "default": false,
                     "description": "If enabled then always uses the built-in search index, otherwise the newest search index is loaded from the Search-Index-Url setting and the built-in one is used only in case of failure."
+                },
+                "mdnQuickSearch.hideCommandInEditorContextMenu": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If enabled then hides the MDN Quick Search command in the editor context menu."
                 }
             }
         }

@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.2.0
+
+- Added the search command also to the editor context menu (and a setting to hide it there)
+
 ## 1.1.1
 
 - Fixed settings changes not being considered if they have been changed after extension activation
