@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.2.1
+
+- Added keywords for better search in marketplace
+
 ## 1.2.0
 
 - Added the search command also to the editor context menu (and a setting to hide it there)

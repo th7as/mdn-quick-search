@@ -1,7 +1,5 @@
 # MDN Quick Search
 
-## Features
-
 Quickly search MDN docs and pick a page from the search results to open in external browser.
 
 ![Screenshot](https://raw.githubusercontent.com/th7as/mdn-quick-search/main/images/demo.png)
